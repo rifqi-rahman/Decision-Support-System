@@ -3,14 +3,14 @@ library(dplyr)
 library(DT)
 
 # Fungsi bantu untuk membuat form input matrix
-matrixInput <- function(inputId, nrow, ncol, rowNames = NULL, colNames = NULL, defaultValue = 0, width = "50px") {
+matrixInput <- function(inputId, nrow, ncol, rowNames = NULL, colNames = NULL, defaultValue = 0, width = "60px") {
   tableOutput <- tagList()
   
   # Header kolom
   if (!is.null(colNames)) {
     header <- fluidRow(
       column(2),
-      lapply(1:ncol, function(j) column(2, strong(colNames[j])))
+      lapply(1:ncol, function(j) column(2, tags$div(strong(colNames[j]), style = "margin-bottom: 5px;")))
     )
     tableOutput <- tagAppendChildren(tableOutput, header)
   }
@@ -29,36 +29,73 @@ matrixInput <- function(inputId, nrow, ncol, rowNames = NULL, colNames = NULL, d
   return(tableOutput)
 }
 
-
 # UI
 ui <- fluidPage(
-  titlePanel("Sistem Pendukung Keputusan - MFEP"),
+  tags$head(
+    tags$style(HTML("
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #f9f9f9;
+      }
+      h4 {
+        margin-top: 30px;
+        font-weight: 600;
+      }
+      .well {
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      }
+    "))
+  ),
+  
+  titlePanel("✨ Sistem Pendukung Keputusan - Metode MFEP"),
   
   sidebarLayout(
     sidebarPanel(
       numericInput("alternatif", "Jumlah Alternatif:", 3, min = 1, max = 10),
       numericInput("kriteria", "Jumlah Kriteria:", 3, min = 1, max = 10),
-      actionButton("generate", "Buat Form Penilaian"),
-      br(), br(),
-      
+      actionButton("generate", "Buat Form Penilaian", class = "btn btn-primary"),
+      br(), br()
     ),
     
     mainPanel(
-      uiOutput("inputTables"),
+      div(class = "well",
+          uiOutput("inputTables")
+      ),
       br(),
-      uiOutput("bobotWarning"),  # <-- tempat pesan validasi
-      br(),
-      uiOutput("hitungButton"),  # <-- tombol akan tampil jika valid
       DTOutput("hasil")
     )
-    
-    
   )
 )
 
 # Server
 server <- function(input, output, session) {
   values <- reactiveValues()
+  
+  # Validasi bobot
+  bobotValid <- reactive({
+    kri <- isolate(values$kri_count)
+    if (is.null(kri)) return(FALSE)
+    bobot <- numeric(kri)
+    for (j in 1:kri) {
+      id <- paste0("bobot_1_", j)
+      val <- input[[id]]
+      if (is.null(val)) return(FALSE)
+      bobot[j] <- as.numeric(val)
+    }
+    sum(bobot) == 1
+  })
+  
+  # Tombol hitung muncul hanya jika bobot valid
+  output$showHitungBtn <- renderUI({
+    req(values$kri_count)
+    if (bobotValid()) {
+      actionButton("hitung", "Hitung MFEP", class = "btn btn-success")
+    }
+  })
   
   # Buat form penilaian
   observeEvent(input$generate, {
@@ -73,61 +110,36 @@ server <- function(input, output, session) {
     output$inputTables <- renderUI({
       tagList(
         h4("Masukkan Bobot Kriteria (total = 1.0)"),
-        matrixInput("bobot", nrow = 1, ncol = kri, colNames = values$kriteria, defaultValue = 0, width = "200px"),
+        uiOutput("bobotWarning"),
+        matrixInput("bobot", nrow = 1, ncol = kri, colNames = values$kriteria, defaultValue = 0, width = "80px"),
         
         h4("Masukkan Skor Alternatif terhadap Kriteria (1-5)"),
-        matrixInput("skor", nrow = alt, ncol = kri, rowNames = values$alternatif, colNames = values$kriteria, defaultValue = 1, width = "200px")
-      )
+        matrixInput("skor", nrow = alt, ncol = kri, rowNames = values$alternatif, colNames = values$kriteria, defaultValue = 1, width = "80px"),
+        div(style = "margin-top: 20px;", uiOutput("showHitungBtn"))
+        )
     })
-    
   })
   
-  observe({
-    req(values$kri_count)  # hanya lanjut kalau form sudah digenerate
-    
-    total_bobot <- 0
-    valid <- TRUE
-    
-    for (j in 1:values$kri_count) {
-      id <- paste0("bobot_1_", j)
-      val <- input[[id]]
-      if (is.null(val) || is.na(val)) {
-        valid <- FALSE
-      } else {
-        total_bobot <- total_bobot + as.numeric(val)
-      }
-    }
-    
-    # Buat output validasi
-    if (!valid || abs(total_bobot - 1.0) > 0.001) {
-      output$bobotWarning <- renderUI({
-        div(style = "color: red;", "❗ Total bobot kriteria harus sama dengan 1.0")
-      })
-      output$hitungButton <- renderUI({ NULL })
-    } else {
-      output$bobotWarning <- renderUI({ NULL })
-      output$hitungButton <- renderUI({
-        actionButton("hitung", "Hitung MFEP")
-      })
+  # Warning bobot
+  output$bobotWarning <- renderUI({
+    if (!isTRUE(bobotValid())) {
+      tags$p("❗ Total bobot kriteria harus sama dengan 1.0", style = "color:red; font-weight:500; margin-top: -10px; margin-bottom: 10px;")
     }
   })
-  
   
   # Kalkulasi MFEP
   observeEvent(input$hitung, {
     alt <- isolate(values$alt_count)
     kri <- isolate(values$kri_count)
     
-    req(alt, kri)  # pastikan form sudah digenerate
+    req(alt, kri)
     
-    # Ambil bobot
     bobot <- numeric(kri)
     for (j in 1:kri) {
       id <- paste0("bobot_1_", j)
       bobot[j] <- as.numeric(input[[id]])
     }
     
-    # Ambil skor
     skor <- matrix(0, nrow = alt, ncol = kri)
     for (i in 1:alt) {
       for (j in 1:kri) {
@@ -136,7 +148,6 @@ server <- function(input, output, session) {
       }
     }
     
-    # Kalkulasi MFEP
     hasil <- skor %*% bobot
     df <- data.frame(Alternatif = values$alternatif, Total_MFEP = round(hasil, 3))
     df <- df %>% arrange(desc(Total_MFEP))
