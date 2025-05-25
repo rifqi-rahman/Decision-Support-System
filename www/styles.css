@@ -1,0 +1,244 @@
+/* --- Global & Typography --- */
+body {
+    /* Ganti dengan font pilihan Anda dari Google Fonts atau sistem */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f7; /* Warna abu-abu sangat muda ala Apple */
+    color: #1d1d1f; /* Warna teks utama Apple (mendekati hitam) */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Font lebih halus di Webkit */
+    -moz-osx-font-smoothing: grayscale; /* Font lebih halus di Firefox */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* Sedikit lebih tebal untuk judul */
+    color: #1d1d1f;
+}
+
+a {
+    color: #007aff; /* Warna link biru khas Apple */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Landing Section --- */
+.landing-section {
+    padding: 80px 30px; /* Lebih banyak padding vertikal */
+    text-align: center;
+    background-color: #ffffff;
+    border-bottom: none; /* Hilangkan border, gunakan bayangan atau spacing */
+    margin-bottom: 60px; /* Jarak lebih besar ke section berikutnya */
+}
+
+.landing-section h1 {
+    font-size: 3.5em; /* Lebih besar dan impactful */
+    font-weight: 700;
+    margin-bottom: 25px;
+    letter-spacing: -0.5px; /* Sedikit penyesuaian spasi antar huruf */
+}
+
+.landing-section p.lead-dss { /* Kelas baru untuk paragraf utama DSS */
+    font-size: 1.3em; /* Lebih besar dari paragraf biasa */
+    color: #333; /* Sedikit lebih lembut dari hitam pekat */
+    max-width: 750px;
+    margin: 0 auto 30px auto;
+    line-height: 1.7;
+}
+.landing-section p.secondary-dss { /* Kelas baru untuk paragraf sekunder */
+    font-size: 1.1em;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+
+.landing-image-placeholder {
+    margin: 40px auto;
+    max-width: 450px;
+    height: 250px; /* Sesuaikan */
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px; /* Sudut sedikit membulat */
+    color: #888;
+    font-style: italic;
+}
+
+/* --- Algorithms Section Title --- */
+.algorithms-section-title {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-top: 60px; /* Jarak dari atas */
+    margin-bottom: 40px; /* Jarak ke kartu */
+    color: #1d1d1f;
+}
+
+
+/* --- Algorithms Grid & Cards --- */
+.algorithms-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px; /* Sedikit lebih banyak jarak */
+    justify-content: center;
+    padding: 0 30px 60px 30px; /* Padding di sekeliling grid */
+}
+
+.algorithm-card {
+    background-color: #ffffff;
+    border: 1px solid #d2d2d7; /* Border lebih lembut */
+    border-radius: 18px; /* Radius lebih besar ala Apple */
+    padding: 30px; /* Padding lebih dalam */
+    width: 300px; /* Sedikit lebih lebar jika diperlukan */
+    min-height: 220px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04); /* Bayangan sangat halus */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi lebih smooth */
+}
+
+.algorithm-card:hover {
+    transform: translateY(-8px); /* Efek angkat lebih terasa */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* Bayangan lebih jelas saat hover */
+}
+
+.algorithm-card .card-icon {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    color: #007aff; /* Warna ikon default biru Apple */
+}
+/* Anda bisa menambahkan warna spesifik per ikon jika mau */
+/* #card_mfep .card-icon { color: #ff9500; } Orange */
+/* #card_topsis .card-icon { color: #34c759; } Green */
+
+
+.algorithm-card h4 { /* Judul metode di kartu */
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top: 0; /* Reset margin atas */
+    margin-bottom: 12px;
+    color: #1d1d1f;
+}
+
+.algorithm-card p { /* Deskripsi metode di kartu */
+    font-size: 0.95em;
+    color: #555; /* Warna teks deskripsi */
+    flex-grow: 1;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.algorithm-card .btn {
+    width: auto; /* Lebar tombol menyesuaikan konten */
+    padding: 12px 25px; /* Padding tombol lebih besar */
+    font-size: 0.9em;
+    font-weight: 500;
+    border-radius: 12px; /* Radius tombol */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    align-self: center; /* Tombol di tengah kartu */
+}
+
+.algorithm-card .btn-primary {
+    background-color: #007aff;
+    border-color: #007aff;
+    color: white;
+}
+.algorithm-card .btn-primary:hover {
+    background-color: #005ecb; /* Sedikit lebih gelap saat hover */
+    border-color: #005ecb;
+}
+
+.algorithm-card .btn-outline-secondary {
+    border-color: #007aff;
+    color: #007aff;
+}
+.algorithm-card .btn-outline-secondary:hover {
+    background-color: rgba(0,122,255,0.1); /* Latar transparan biru saat hover */
+    color: #007aff;
+}
+
+
+/* --- Tombol Kembali & Styling Kontainer Modul --- */
+.back-button-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-left: 30px;
+}
+.back-button-container .btn {
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 8px 15px;
+}
+
+.mfep-container .well, .coming-soon-container { /* Penyesuaian umum untuk kontainer modul */
+    background: #ffffff;
+    padding: 30px 40px; /* Padding lebih besar */
+    border-radius: 18px; /* Radius lebih besar */
+    border: 1px solid #d2d2d7;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin: 20px; /* Memberi jarak dari tepi */
+}
+.mfep-container .sidebarLayout {
+    background-color: transparent !important; /* Pastikan sidebarLayout tidak menimpa background .well */
+}
+.mfep-container .well .well { /* Jika ada .well di dalam .well (seperti sidebarPanel) */
+    background-color: #f5f5f7 !important; /* Beri warna sedikit beda atau samakan */
+    border: none;
+    box-shadow: none;
+    padding: 20px;
+}
+
+
+/* --- Coming Soon Page --- */
+.coming-soon-container {
+    /* ... styling sebelumnya ... */
+    padding: 60px 30px; /* Lebih banyak padding */
+}
+.coming-soon-container h2 {
+    font-size: 2.8em;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 20px;
+}
+.coming-soon-container p {
+    font-size: 1.25em;
+    color: #555;
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.coming-soon-container .fa-3x { /* Icon di coming soon */
+    font-size: 4em; /* Lebih besar */
+    color: #007aff !important; /* Menggunakan warna aksen utama */
+    margin-bottom: 30px;
+}
+.coming-soon-container .btn-lg {
+    padding: 15px 35px; /* Tombol lebih besar */
+    font-size: 1.1em;
+    font-weight: 500;
+    border-radius: 12px;
+    background-color: #007aff;
+    border-color: #007aff;
+}
+.coming-soon-container .btn-lg:hover {
+    background-color: #005ecb;
+    border-color: #005ecb;
+}
+
+/* Input Fields Styling (Basic) */
+.form-control { /* Kelas default Bootstrap untuk input */
+    border-radius: 8px !important;
+    border: 1px solid #d2d2d7 !important;
+    padding: 10px 12px !important;
+    box-shadow: none !important; /* Hilangkan inner shadow default */
+}
+.form-control:focus {
+    border-color: #007aff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0,122,255,.25) !important; /* Shadow fokus khas Bootstrap tapi dengan warna Apple */
+}
+/* Kustomisasi lebih lanjut untuk numericInput, dll. mungkin memerlukan inspeksi elemen dan CSS yang lebih spesifik */
