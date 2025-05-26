@@ -32,7 +32,7 @@ createMfepMatrixInput <- function(inputId, nrow, ncol, rowNames = NULL, colNames
 getMfepPageUI <- function() {
   tagList(
     div(class="back-button-container", actionButton("back_to_home_mfep", "Kembali ke Dashboard", icon = shiny::icon("arrow-left"), class="btn btn-light")),
-    titlePanel("✨ Metode Multi-Factor Evaluation Process (MFEP)"),
+    titlePanel("Metode Multi-Factor Evaluation Process (MFEP)"),
     sidebarLayout(
       sidebarPanel(
         numericInput("alternatif_mfep", "Jumlah Alternatif:", 3, min = 1, max = 10),

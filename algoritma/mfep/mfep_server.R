@@ -51,7 +51,7 @@ initializeMfepServerLogic <- function(input, output, session) {
         uiOutput("bobotWarning_mfep"), # Warning bobot
         # Menggunakan createMfepMatrixInput dari mfep_ui.R
         createMfepMatrixInput("bobot", 1, kri, colNames = paste0("K", 1:kri), defaultValue = 0, width = "80px"),
-        h4("Masukkan Skor Alternatif terhadap Kriteria (1-5)"),
+        h4("Masukkan Skor Alternatif terhadap Kriteria"),
         createMfepMatrixInput("skor", alt, kri, rowNames = paste0("A", 1:alt), colNames = paste0("K", 1:kri), defaultValue = 1, width = "80px")
       )
     })
