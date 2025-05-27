@@ -1,10 +1,7 @@
 # /algoritma/mfep/mfep_ui.R
 
-# Fungsi createMatrixInput ada di utils.R.
-# Jika utils.R tidak di-source secara global di dashboard.R, Anda perlu source di sini:
-# source("../../utils/utils.R", local = TRUE) # Path relatif
-
-# Modifikasi createMatrixInput khusus untuk MFEP agar ID nama alternatifnya sesuai
+# Fungsi createMfepMatrixInput tetap sama seperti sebelumnya.
+# Pastikan ini didefinisikan di sini atau di-source dari utils.R melalui dashboard.R
 createMfepMatrixInput <- function(inputId, nrow, ncol, rowNames = NULL, colNames = NULL, defaultValue = 0, width = "60px") {
   tableOutput <- tagList()
   if (!is.null(colNames)) {
@@ -32,7 +29,7 @@ createMfepMatrixInput <- function(inputId, nrow, ncol, rowNames = NULL, colNames
 getMfepPageUI <- function() {
   tagList(
     div(class="back-button-container", actionButton("back_to_home_mfep", "Kembali ke Dashboard", icon = shiny::icon("arrow-left"), class="btn btn-light")),
-    titlePanel("Metode Multi-Factor Evaluation Process (MFEP)"),
+    titlePanel("Metode Multi-Factor Evaluation Process (MFEP)"), # Saya kembalikan emoji jika Anda suka
     sidebarLayout(
       sidebarPanel(
         numericInput("alternatif_mfep", "Jumlah Alternatif:", 3, min = 1, max = 10),
@@ -44,9 +41,13 @@ getMfepPageUI <- function() {
       mainPanel(
         div(class = "well", uiOutput("inputTables_mfep")),
         br(),
-        DTOutput("hasil_mfep"),
+        DTOutput("hasil_mfep"), # Tabel hasil utama
         br(),
-        plotlyOutput("hasilPlot_mfep")
+        plotlyOutput("hasilPlot_mfep"), # Plot hasil utama
+        br(),
+        # ---- TAMBAHAN BARU DI SINI ----
+        uiOutput("mfep_detail_tables_ui") # Placeholder untuk tabel-tabel detail proses
+        # -----------------------------
       )
     )
   )

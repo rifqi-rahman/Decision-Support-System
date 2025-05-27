@@ -10,7 +10,7 @@ getHomePageUI <- function() {
     # --------------------------------------------------------------------
     tags$nav(class = "navbar navbar-expand-lg navbar-light bg-light fixed-top custom-navbar",
              div(class = "container-fluid", # Menggunakan container-fluid untuk lebar penuh
-                 tags$a(class = "navbar-brand", href = "#", "DSS Dashboard"), # Ganti dengan ID page top jika perlu
+                 tags$a(class = "navbar-brand", href = "#", "DSS"), # Ganti dengan ID page top jika perlu
                  tags$button(class = "navbar-toggler", type = "button",
                              `data-bs-toggle` = "collapse", `data-bs-target` = "#navbarNav",
                              `aria-controls` = "navbarNav", `aria-expanded` = "false", `aria-label` = "Toggle navigation",
@@ -45,7 +45,7 @@ getHomePageUI <- function() {
         tags$h1("Unlock Your Best Decisions"),
         tags$p(class="lead-dss", "The Intelligent DSS Dashboard navigating complexity to achieve clarity in every choice."),
         tags$p(class="secondary-dss", "More than just data, this is insight. Our DSS transforms numbers into strategy, empowering you to make smarter, faster, and more confident decisions. From deep analysis to accurate predictions, discover the power behind every option."),
-        tags$div(class="landing-image-placeholder", "Future Home of DSS Illustration")
+        tags$img(src="banner.png", class="img-fluid rounded shadow-sm", alt="About illustration placeholder", style="max-height: 300px; margin: auto; display: block; background-color: #ccc;") # Placeholder gambar
     ),
     
     # --------------------------------------------------------------------
@@ -160,10 +160,11 @@ getHomePageUI <- function() {
                 div(class = "container",
                     tags$p(paste0("© ", format(Sys.Date(), "%Y"), " DSS Dashboard Project. All Rights Reserved.")),
                     tags$p(
-                      "Crafted with ", shiny::icon("heart"), " using R & Shiny."
+                      "Crafted by MFEP R Team : Rifqi & Najma ", shiny::icon("flame"), " using R & Shiny."
                       # Anda bisa menambahkan link sosial media di sini jika mau
                     )
                 )
     )
   ) # Akhir dari tagList utama
 }
+
